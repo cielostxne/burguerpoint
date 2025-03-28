@@ -1,31 +1,86 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Burger Point</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hamburguesería Burger Point</title>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
+    :root {
+      --amarillo: #ffcc00;
+      --rojo: #ff0033;
+      --fondo-negro: #1a1a1a;
+      --gris-oscuro: #2b2b2b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #000; /* Fondo negro */
+      background: url('https://www.transparenttextures.com/patterns/cardboard-flat.png');
+      background-color: var(--fondo-negro);
       color: white;
     }
 
     header {
-      background-color: rgba(255, 204, 0, 0.95);
-      padding: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 20px 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .encabezado {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      flex-wrap: wrap;
+    }
+
+    .encabezado img {
+      position: absolute;
+      left: -250px;
+      width: 250px;
+      height: auto;
+    }
+
+    .titulo-header {
       text-align: center;
     }
 
-    header img {
-      width: 150px;
+    .encabezado h1 {
+      font-family: 'Russo One', sans-serif;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0;
+      line-height: 1.3;
     }
 
-    h1 {
-      color: #d40000;
-      font-size: 2rem;
-      margin-top: 10px;
+    .yellow {
+      color: var(--amarillo);
+    }
+
+    .red {
+      color: var(--rojo);
+    }
+
+    .map-icon {
+      color: var(--rojo);
+      font-size: 1.2em;
+      vertical-align: middle;
+      margin: 0 3px;
     }
 
     .descripcion {
@@ -34,6 +89,18 @@
       font-size: 1.1rem;
       color: #f0f0f0;
       background-color: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+      margin: 20px auto;
+      border-radius: 12px;
+      max-width: 1100px;
+    }
+
+    .frase-destacada {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.8rem;
+      color: var(--amarillo);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
     }
 
     .menu {
@@ -42,19 +109,27 @@
       justify-content: center;
       gap: 25px;
       padding: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
     .producto {
       background-color: rgba(43, 43, 43, 0.9);
       border-radius: 12px;
       padding: 20px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+      width: 280px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .producto:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
     }
 
     .producto h2 {
-      color: #ffcc00;
-      margin-top: 0;
+      color: var(--amarillo);
+      font-family: 'Russo One', sans-serif;
     }
 
     .precio {
@@ -64,61 +139,97 @@
 
     .pedido {
       text-align: center;
-      margin: 30px 0;
+      margin: 40px 0;
     }
 
-    .pedido a {
-      background-color: #ffcc00;
+    .pedido a,
+    .boton-instagram {
+      background-color: var(--amarillo);
       color: #1a1a1a;
       padding: 15px 30px;
       border-radius: 30px;
       text-decoration: none;
       font-weight: bold;
+      font-family: 'Russo One', sans-serif;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    .pedido a:hover,
+    .boton-instagram:hover {
+      background-color: #ffd700;
     }
 
     .instagram {
       text-align: center;
-      margin-top: 20px;
-      font-size: 1.1rem;
+      margin: 40px auto 30px;
     }
 
-    .instagram a {
-      color: #ff6699;
-      font-weight: bold;
-      text-decoration: none;
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @media (max-width: 768px) {
+      .encabezado {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .encabezado img {
+        position: static;
+        margin-bottom: 15px;
+      }
+
+      .titulo-header {
+        margin-top: 0;
+      }
+
+      .producto {
+        width: 90%;
+        max-width: 360px;
+      }
     }
   </style>
 </head>
 <body>
 <header>
-  <img src="PHOTO-2025-03-28-13-09-54.jpg" alt="Burger Point logo">
-  <h1>BURGER POINT</h1>
+  <div class="encabezado">
+    <img src="Burgerpointlogo.png" alt="Logo Burger Point" />
+    <div class="titulo-header">
+      <h1>
+        <span class="yellow">Hamburguesería</span><br />
+        <span class="yellow">BURGER</span>
+        <span class="red">P</span><i class="fas fa-map-marker-alt map-icon"></i><span class="red">INT</span>
+      </h1>
+    </div>
+  </div>
 </header>
 
 <section class="descripcion">
-  <p>4 tipos de hamburguesas (Smash 135 gr.), en pan brioche, con papas fritas naturales.</p>
+  <p class="frase-destacada">🍔 4 TIPOS DE HAMBURGUESAS 🍔</p>
+  <p>Smash 135 gr. en pan brioche, con papas fritas naturales.</p>
 </section>
 
 <section class="menu">
-  <div class="producto" data-hamburguesa="Clásica">
+  <div class="producto">
     <h2>Clásica</h2>
     <p>Carne 100% vacuno, queso cheddar, tomate, lechuga hidropónica, pepinillos, lactonesa ajo, salsa de la casa.</p>
     <p class="precio">Simple $7.500 | Doble $9.500</p>
   </div>
-
-  <div class="producto" data-hamburguesa="Bacon">
+  <div class="producto">
     <h2>Bacon</h2>
     <p>Carne 100% vacuno, cheddar, cebolla crispy, tocino, salsa BBQ, lactonesa ajo.</p>
     <p class="precio">Simple $7.000 | Doble $9.000</p>
   </div>
-
-  <div class="producto" data-hamburguesa="Nortina">
+  <div class="producto">
     <h2>Nortina</h2>
     <p>Carne 100% vacuno, cheddar, tomate, lechuga hidropónica, papas hilo, lactonesa de aceituna.</p>
     <p class="precio">Simple $7.500 | Doble $9.500</p>
   </div>
-
-  <div class="producto" data-hamburguesa="Suprema">
+  <div class="producto">
     <h2>Suprema</h2>
     <p>Carne 100% vacuno, queso mantecoso, cebolla caramelizada, tocino, huevo, lactonesa ajo.</p>
     <p class="precio">Simple $8.000 | Doble $10.000</p>
@@ -126,12 +237,13 @@
 </section>
 
 <section class="pedido">
-  <a id="whatsapp-link" href="https://wa.me/56942054670" target="_blank">PIDE AHORA por WhatsApp</a>
+  <a href="https://wa.me/56942054670" target="_blank">PIDE AHORA por WhatsApp</a>
 </section>
 
 <div class="instagram">
-  Síguenos en Instagram: <a href="https://instagram.com/hamburgueseriabp" target="_blank">@hamburgueseriabp</a>
+  <a href="https://instagram.com/hamburgueseriabp" target="_blank" class="boton-instagram">
+    📸 Síguenos en Instagram: @hamburgueseriabp
+  </a>
 </div>
-
 </body>
 </html>

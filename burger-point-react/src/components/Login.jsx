@@ -22,9 +22,6 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="login-container">
-      <Link to="/" className="back-button">
-        <i className="fas fa-arrow-left"></i> Volver
-      </Link>
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Iniciar Sesión</h2>
         <div className="form-group">

@@ -15,9 +15,6 @@ const AdminPanel = () => {
   return (
     <div className="admin-container">
       <nav className="admin-nav">
-        <Link to="/" className="back-button">
-          <i className="fas fa-arrow-left"></i> Volver
-        </Link>
         <h1>Panel de Administración</h1>
       </nav>
 

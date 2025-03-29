@@ -6,10 +6,15 @@ const Header = ({ onCartClick, cartItemCount, isAuthenticated, onLogout }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const isAdminPanel = location.pathname === '/admin';
+  const isLoginPage = location.pathname === '/login';
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   const handleLogoutClick = () => {
     setShowConfirmDialog(true);
+  };
+
+  const handleBackClick = () => {
+    navigate('/');
   };
 
   const handleConfirmLogout = () => {
@@ -51,7 +56,7 @@ const Header = ({ onCartClick, cartItemCount, isAuthenticated, onLogout }) => {
           </div>
 
           <div className="nav-buttons">
-            {!isAdminPanel && (
+            {!isAdminPanel && !isLoginPage && (
               <>
                 <Link to="/admin" className="admin-button">
                   <i className="fas fa-user-shield"></i>
@@ -71,6 +76,13 @@ const Header = ({ onCartClick, cartItemCount, isAuthenticated, onLogout }) => {
               <button onClick={handleLogoutClick} className="logout-button">
                 <i className="fas fa-sign-out-alt"></i>
                 Salir
+              </button>
+            )}
+
+            {isLoginPage && (
+              <button onClick={handleBackClick} className="logout-button">
+                <i className="fas fa-arrow-left"></i>
+                Volver
               </button>
             )}
           </div>

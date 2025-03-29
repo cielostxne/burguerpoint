@@ -13,13 +13,16 @@ function App() {
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
 
   const cantidadTotal = carrito.reduce((total, item) => total + item.cantidad, 0);
-
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
   return (
     <BrowserRouter>
       <Header
         onCartClick={() => setMostrarCarrito(true)}
         cartItemCount={cantidadTotal}
         isAuthenticated={isAuthenticated}
+        onLogout={handleLogout}
       />
       <Routes>
         <Route path="/admin" element={isAuthenticated ? <AdminPanel /> : <Navigate to="/login" />} />

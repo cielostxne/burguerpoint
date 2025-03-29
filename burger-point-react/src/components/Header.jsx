@@ -13,10 +13,18 @@ const Header = ({ onCartClick, cartItemCount, isAuthenticated, onLogout }) => {
   };
 
   const handleConfirmLogout = () => {
+    // Limpiamos toda la información de sesión
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Actualizamos el estado de autenticación
     onLogout();
-    localStorage.removeItem('token');
-    navigate('/');
+
+    // Cerramos el modal
     setShowConfirmDialog(false);
+
+    // Redirigimos al menú principal
+    window.location.replace('/');
   };
 
   const handleCancelLogout = () => {

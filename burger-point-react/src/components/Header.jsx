@@ -1,10 +1,27 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/Burgerpointlogo.png';
 
 const Header = ({ onCartClick, cartItemCount, isAuthenticated, onLogout }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isAdminPanel = location.pathname === '/admin';
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
+  const handleLogoutClick = () => {
+    setShowConfirmDialog(true);
+  };
+
+  const handleConfirmLogout = () => {
+    onLogout();
+    localStorage.removeItem('token');
+    navigate('/');
+    setShowConfirmDialog(false);
+  };
+
+  const handleCancelLogout = () => {
+    setShowConfirmDialog(false);
+  };
 
   return (
     <header>
@@ -43,7 +60,7 @@ const Header = ({ onCartClick, cartItemCount, isAuthenticated, onLogout }) => {
             )}
 
             {isAuthenticated && isAdminPanel && (
-              <button onClick={onLogout} className="logout-button">
+              <button onClick={handleLogoutClick} className="logout-button">
                 <i className="fas fa-sign-out-alt"></i>
                 Salir
               </button>
@@ -51,6 +68,18 @@ const Header = ({ onCartClick, cartItemCount, isAuthenticated, onLogout }) => {
           </div>
         </div>
       </nav>
+
+      {showConfirmDialog && (
+        <div className="modal-overlay">
+          <div className="confirm-dialog">
+            <h3>¿Estás seguro que deseas salir?</h3>
+            <div className="confirm-buttons">
+              <button onClick={handleConfirmLogout} className="confirm-yes">Sí</button>
+              <button onClick={handleCancelLogout} className="confirm-no">No</button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

@@ -273,6 +273,31 @@ header {
   left: -150px; /* Cambiado de -250px a -150px */
   width: 250px;
   height: auto;
+}/* Añadir en App.css */
+.logout-button {
+  background-color: var(--rojo);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+.logout-button:hover {
+  background-color: var(--amarillo);
+  color: var(--fondo-negro);
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .navbar {
@@ -284,11 +309,6 @@ header {
   background-color: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-}
-.nav-buttons {
-  display: flex;
-  align-items: center;
-  gap: 20px;
 }
 
 .admin-button {

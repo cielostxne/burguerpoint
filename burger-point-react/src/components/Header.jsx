@@ -1,8 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/Burgerpointlogo.png';
 
-const Header = ({ onCartClick, cartItemCount }) => {
+const Header = ({ onCartClick, cartItemCount, isAuthenticated, onLogout }) => {
+  const location = useLocation();
+  const isAdminPanel = location.pathname === '/admin';
+
   return (
     <header>
       <nav className="navbar">
@@ -23,17 +26,28 @@ const Header = ({ onCartClick, cartItemCount }) => {
           </div>
 
           <div className="nav-buttons">
-            <Link to="/admin" className="admin-button">
-              <i className="fas fa-user-shield"></i>
-              Admin
-            </Link>
+            {!isAdminPanel && (
+              <>
+                <Link to="/admin" className="admin-button">
+                  <i className="fas fa-user-shield"></i>
+                  Admin
+                </Link>
 
-            <div className="carrito-icon" onClick={onCartClick}>
-              <i className="fas fa-shopping-cart"></i>
-              {cartItemCount > 0 && (
-                <span className="carrito-contador">{cartItemCount}</span>
-              )}
-            </div>
+                <div className="carrito-icon" onClick={onCartClick}>
+                  <i className="fas fa-shopping-cart"></i>
+                  {cartItemCount > 0 && (
+                    <span className="carrito-contador">{cartItemCount}</span>
+                  )}
+                </div>
+              </>
+            )}
+
+            {isAuthenticated && isAdminPanel && (
+              <button onClick={onLogout} className="logout-button">
+                <i className="fas fa-sign-out-alt"></i>
+                Salir
+              </button>
+            )}
           </div>
         </div>
       </nav>

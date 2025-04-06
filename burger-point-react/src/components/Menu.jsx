@@ -116,6 +116,9 @@ const Menu = ({ carrito, setCarrito, mostrarCarrito, setMostrarCarrito }) => {
           >
             <div className="producto-header">
               <h2>{producto.nombre}</h2>
+              <div className="mini-imagen">
+                <img src={producto.imagen} alt={producto.nombre} />
+              </div>
             </div>
             <div className="producto-body">
               <p className="descripcion">{producto.descripcion}</p>
@@ -131,13 +134,6 @@ const Menu = ({ carrito, setCarrito, mostrarCarrito, setMostrarCarrito }) => {
                 </div>
               </div>
               <p className="incluye-text">{producto.incluye}</p>
-              <div className="ingredientes-preview">
-                {producto.ingredientes.map((ingrediente, index) => (
-                  <span key={index} className="ingrediente-tag">
-                    {ingrediente}
-                  </span>
-                ))}
-              </div>
             </div>
             <button className="ver-detalles-btn">
               Ver detalles y ordenar

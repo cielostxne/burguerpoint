@@ -1357,13 +1357,7 @@ header {
   color: white;
 }
 
-/* Estilos para el menú y productos */
-.menu-container {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: #f8f9fa;
-}
+
 .carrito-icon {
   position: relative;
   background-color: var(--amarillo);
@@ -1398,6 +1392,50 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.carrito-formulario {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid var(--amarillo);
+}
+
+.campo-nombre[rows] {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.carrito-formulario label + label {
+  margin-top: 15px;
+}
+
+.carrito-formulario textarea {
+  margin-bottom: 15px;
+}
+.campo-nombre {
+  width: 100%;
+  padding: 12px;
+  background: var(--fondo-negro);
+  border: 2px solid var(--amarillo);
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+.campo-nombre:focus {
+  outline: none;
+  border-color: var(--rojo);
+}
+
+.label-nombre {
+  color: var(--amarillo);
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
 }
 
 /* Estilos para el modal actualizado */

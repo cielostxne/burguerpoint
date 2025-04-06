@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const CarritoModal = ({ carrito, setCarrito, onClose }) => {
+  const [nombre, setNombre] = useState('');
+  const [descripcion, setDescripcion] = useState('');
   const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
 
   const eliminarItem = (id) => {
@@ -14,6 +16,18 @@ const CarritoModal = ({ carrito, setCarrito, onClose }) => {
         ? { ...item, cantidad: nuevaCantidad, subtotal: item.precio * nuevaCantidad }
         : item
     ));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!nombre.trim()) {
+      alert('Por favor ingresa tu nombre');
+      return;
+    }
+    // Aquí iría la lógica para procesar el pago
+    console.log('Procesando pedido para:', nombre);
+    console.log('Descripción:', descripcion);
+    console.log('Total:', total);
   };
 
   return (
@@ -54,13 +68,42 @@ const CarritoModal = ({ carrito, setCarrito, onClose }) => {
         </div>
 
         {carrito.length > 0 && (
-          <div className="carrito-total">
-            <h3>Total: ${total.toLocaleString()}</h3>
-            <button className="btn-pagar">
-              Proceder al pago
-              <i className="fas fa-arrow-right"></i>
-            </button>
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="carrito-formulario">
+              <label htmlFor="nombreCliente" className="label-nombre">
+                Nombre para el pedido:
+              </label>
+              <input
+                type="text"
+                id="nombreCliente"
+                className="campo-nombre"
+                placeholder="Ingresa tu nombre"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                required
+              />
+
+              <label htmlFor="descripcion" className="label-nombre" style={{ marginTop: '15px' }}>
+                Descripción o notas adicionales:
+              </label>
+              <textarea
+                id="descripcion"
+                className="campo-nombre"
+                placeholder="Ej: Sin cebolla, extra salsa, etc..."
+                value={descripcion}
+                onChange={(e) => setDescripcion(e.target.value)}
+                rows="3"
+              />
+            </div>
+
+            <div className="carrito-total">
+              <h3>Total: ${total.toLocaleString()}</h3>
+              <button type="submit" className="btn-pagar">
+                Proceder al pago
+                <i className="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </form>
         )}
       </div>
     </div>

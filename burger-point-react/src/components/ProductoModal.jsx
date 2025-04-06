@@ -2,63 +2,100 @@ import React, { useState } from 'react';
 
 const ProductoModal = ({ producto, onClose, onAgregarCarrito }) => {
   const [cantidad, setCantidad] = useState(1);
+  const [esDoble, setEsDoble] = useState(false);
 
-  const handleAdd = () => {
-    setCantidad(prev => prev + 1);
-  };
-
-  const handleSubtract = () => {
-    if (cantidad > 1) {
-      setCantidad(prev => prev - 1);
-    }
-  };
-
-  const handleAgregarCarrito = () => {
-    onAgregarCarrito(producto, cantidad);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAgregarCarrito(producto, cantidad, esDoble);
     onClose();
   };
 
+  const precio = esDoble ? producto.precioDoble : producto.precioSimple;
+
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <button className="modal-close" onClick={onClose}>
-          <i className="fas fa-times"></i>
-        </button>
+      <div className="modal-content producto-detalle">
+        <button className="modal-close" onClick={onClose}>×</button>
 
         <div className="modal-grid">
           <div className="modal-imagen">
-            {/* Reemplazar con imagen real */}
             <div className="imagen-placeholder"></div>
           </div>
 
           <div className="modal-detalles">
-            <h2>{producto.nombre}</h2>
-            <p className="modal-descripcion">{producto.descripcion}</p>
+            <div className="modal-contenido">
+              <h2 className="modal-titulo">{producto.nombre}</h2>
+              <p className="modal-descripcion">{producto.descripcion}</p>
 
-            <div className="ingredientes">
-              <h3>Ingredientes:</h3>
-              <ul>
-                {producto.ingredientes.map((ingrediente, index) => (
-                  <li key={index}>
-                    <i className="fas fa-check"></i> {ingrediente}
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <div className="tipo-hamburguesa">
+                <label className={!esDoble ? 'tipo-seleccionado' : ''}>
+                  <input
+                    type="radio"
+                    name="tipo"
+                    checked={!esDoble}
+                    onChange={() => setEsDoble(false)}
+                  />
+                  <span className="tipo-texto">Simple</span>
+                  <span className="tipo-precio">${producto.precioSimple.toLocaleString()}</span>
+                </label>
 
-            <div className="precio-cantidad">
-              <p className="modal-precio">${producto.precio.toLocaleString()}</p>
-              <div className="cantidad-control">
-                <button onClick={handleSubtract}>-</button>
-                <span>{cantidad}</span>
-                <button onClick={handleAdd}>+</button>
+                <label className={esDoble ? 'tipo-seleccionado' : ''}>
+                  <input
+                    type="radio"
+                    name="tipo"
+                    checked={esDoble}
+                    onChange={() => setEsDoble(true)}
+                  />
+                  <span className="tipo-texto">Doble</span>
+                  <span className="tipo-precio">${producto.precioDoble.toLocaleString()}</span>
+                </label>
+              </div>
+
+              <div className="ingredientes-seccion">
+                <h3>Ingredientes</h3>
+                <div className="ingredientes-lista">
+                  {producto.ingredientes.map((ingrediente, index) => (
+                    <span key={index} className="ingrediente-tag">
+                      {ingrediente}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <p className="incluye-nota">{producto.incluye}</p>
+
+              <div className="cantidad-selector">
+                <label>Cantidad:</label>
+                <div className="cantidad-controles">
+                  <button
+                    type="button"
+                    className="cantidad-btn"
+                    onClick={() => cantidad > 1 && setCantidad(cantidad - 1)}
+                  >
+                    -
+                  </button>
+                  <span className="cantidad-valor">{cantidad}</span>
+                  <button
+                    type="button"
+                    className="cantidad-btn"
+                    onClick={() => cantidad < 5 && setCantidad(cantidad + 1)}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             </div>
 
-            <button className="agregar-carrito" onClick={handleAgregarCarrito}>
-              <i className="fas fa-shopping-cart"></i>
-              Agregar al carrito - ${(producto.precio * cantidad).toLocaleString()}
-            </button>
+            <div className="modal-acciones">
+              <div className="total-seccion">
+                <span className="total-label">Total:</span>
+                <span className="total-valor">${(precio * cantidad).toLocaleString()}</span>
+              </div>
+              <button className="agregar-btn" onClick={handleSubmit}>
+                Agregar al carrito
+                <i className="fas fa-shopping-cart"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>

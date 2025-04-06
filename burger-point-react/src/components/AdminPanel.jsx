@@ -3,46 +3,122 @@ import React, { useState } from 'react';
 const AdminPanel = () => {
   const [pedidos, setPedidos] = useState([
     {
-      id: 4,
+      id: 1,
       estado: 'pedida',
-      producto: 'Hamburguesa Clásica',
+      producto: 'Burger Point Nortina Simple',
       cliente: 'Juan',
       detalles: {
-        ingredientes: ['Pan brioche', 'Carne 180g', 'Lechuga', 'Tomate', 'Cebolla'],
-        extras: ['Queso cheddar', 'Tocino'],
+        ingredientes: [
+          'Pan brioche',
+          'Carne smash 135g',
+          'Queso cheddar',
+          'Tomate',
+          'Lechuga hidropónica',
+          'Pepinillos',
+          'Lactonesa de ajo',
+          'Lactonesa de aceituna'
+        ],
+        papas: true
       },
-      fechaCreacion: new Date().toLocaleString()
-    },
-    {
-      id: 3,
-      estado: 'pedida',
-      producto: 'Hamburguesa Clásica',
-      cliente: 'Juan',
-      detalles: {
-        ingredientes: ['Pan brioche', 'Carne 180g', 'Lechuga', 'Tomate', 'Cebolla'],
-        extras: ['Queso cheddar', 'Tocino'],
-      },
-      fechaCreacion: new Date().toLocaleString()
-    },
-    {
-      id: 2,
-      estado: 'proceso',
-      producto: 'Hamburguesa BBQ',
-      cliente: 'María',
-      detalles: {
-        ingredientes: ['Pan artesanal', 'Carne 180g', 'Salsa BBQ'],
-        extras: ['Aros de cebolla'],
-      },
+      precio: 7500,
       fechaCreacion: new Date().toLocaleString()
     }
   ]);
 
-  const [inventario] = useState([
-    { id: 1, item: 'Pan', cantidad: 50, unidad: 'unidades' },
-    { id: 2, item: 'Carne', cantidad: 30, unidad: 'kg' }
+  const [inventario, setInventario] = useState([
+    { id: 1, item: 'Pan brioche', cantidad: 100, unidad: 'unidades' },
+    { id: 2, item: 'Carne smash 135g', cantidad: 150, unidad: 'unidades' },
+    { id: 3, item: 'Queso cheddar', cantidad: 100, unidad: 'láminas' },
+    { id: 4, item: 'Queso mantecoso', cantidad: 100, unidad: 'láminas' },
+    { id: 5, item: 'Tomate', cantidad: 50, unidad: 'unidades' },
+    { id: 6, item: 'Lechuga hidropónica', cantidad: 40, unidad: 'unidades' },
+    { id: 7, item: 'Pepinillos', cantidad: 200, unidad: 'unidades' },
+    { id: 8, item: 'Cebolla', cantidad: 30, unidad: 'unidades' },
+    { id: 9, item: 'Cebolla crispy', cantidad: 50, unidad: 'porciones' },
+    { id: 10, item: 'Tocino', cantidad: 100, unidad: 'láminas' },
+    { id: 11, item: 'Huevo', cantidad: 90, unidad: 'unidades' },
+    { id: 12, item: 'Lactonesa', cantidad: 5, unidad: 'litros' },
+    { id: 13, item: 'Lactonesa de ajo', cantidad: 5, unidad: 'litros' },
+    { id: 14, item: 'Lactonesa de aceituna', cantidad: 5, unidad: 'litros' },
+    { id: 15, item: 'Papas fritas', cantidad: 50, unidad: 'porciones' }
   ]);
 
   const [detallesAbiertos, setDetallesAbiertos] = useState({});
+
+  const cantidadesPorIngrediente = {
+    'Pan brioche': 1,
+    'Carne smash 135g': 1,
+    'Queso cheddar': 1,
+    'Queso mantecoso': 1,
+    'Tomate': 2,
+    'Lechuga hidropónica': 1,
+    'Pepinillos': 4,
+    'Cebolla': 0.25,
+    'Cebolla crispy': 1,
+    'Tocino': 2,
+    'Huevo': 1,
+    'Lactonesa': 0.05,
+    'Lactonesa de ajo': 0.05,
+    'Lactonesa de aceituna': 0.05,
+    'Papas fritas': 1
+  };
+
+  const hamburguesas = {
+    'Burger Point Nortina': {
+      ingredientes: [
+        'Pan brioche',
+        'Carne smash 135g',
+        'Queso cheddar',
+        'Tomate',
+        'Lechuga hidropónica',
+        'Pepinillos',
+        'Lactonesa de ajo',
+        'Lactonesa de aceituna'
+      ],
+      precioSimple: 7500,
+      precioDoble: 9500
+    },
+    'Burger Point Suprema': {
+      ingredientes: [
+        'Pan brioche',
+        'Carne smash 135g',
+        'Queso mantecoso',
+        'Cebolla',
+        'Tocino',
+        'Huevo',
+        'Lactonesa'
+      ],
+      precioSimple: 8000,
+      precioDoble: 10000
+    },
+    'Burger Point Clásica': {
+      ingredientes: [
+        'Pan brioche',
+        'Carne smash 135g',
+        'Queso cheddar',
+        'Tomate',
+        'Lechuga hidropónica',
+        'Pepinillos',
+        'Lactonesa de ajo',
+        'Lactonesa'
+      ],
+      precioSimple: 7500,
+      precioDoble: 9500
+    },
+    'Burger Point Bacon': {
+      ingredientes: [
+        'Pan brioche',
+        'Carne smash 135g',
+        'Queso mantecoso',
+        'Cebolla crispy',
+        'Tocino',
+        'Huevo',
+        'Lactonesa'
+      ],
+      precioSimple: 7000,
+      precioDoble: 9000
+    }
+  };
 
   const toggleDetalles = (id) => {
     setDetallesAbiertos(prev => ({
@@ -51,9 +127,49 @@ const AdminPanel = () => {
     }));
   };
 
+  const verificarInventario = (ingredientes) => {
+    return ingredientes.every(ingrediente => {
+      const item = inventario.find(i => i.item === ingrediente);
+      if (!item) return false;
+      const cantidadNecesaria = cantidadesPorIngrediente[ingrediente] || 1;
+      return item.cantidad >= cantidadNecesaria;
+    });
+  };
+
+  const actualizarInventario = (ingredientes) => {
+    setInventario(prevInventario => {
+      return prevInventario.map(item => {
+        if (ingredientes.includes(item.item)) {
+          const cantidadARestar = cantidadesPorIngrediente[item.item] || 1;
+          return {
+            ...item,
+            cantidad: item.cantidad - cantidadARestar
+          };
+        }
+        return item;
+      });
+    });
+  };
+
   const handleProcesar = (id) => {
-    setPedidos(pedidos.map(pedido =>
-      pedido.id === id ? { ...pedido, estado: 'proceso' } : pedido
+    const pedido = pedidos.find(p => p.id === id);
+    if (!pedido) return;
+
+    const todosLosIngredientes = [...pedido.detalles.ingredientes];
+    if (pedido.detalles.papas) {
+      todosLosIngredientes.push('Papas fritas');
+    }
+
+    const hayInventarioSuficiente = verificarInventario(todosLosIngredientes);
+
+    if (!hayInventarioSuficiente) {
+      alert('No hay suficiente inventario para preparar este pedido');
+      return;
+    }
+
+    actualizarInventario(todosLosIngredientes);
+    setPedidos(pedidos.map(p =>
+      p.id === id ? { ...p, estado: 'proceso' } : p
     ));
   };
 
@@ -90,6 +206,7 @@ const AdminPanel = () => {
                     <p className="cliente-nombre">
                       <i className="fas fa-user"></i> {pedido.cliente}
                     </p>
+                    <p className="pedido-precio">${pedido.precio}</p>
                     <div
                       className="detalles-header"
                       onClick={() => toggleDetalles(pedido.id)}
@@ -105,15 +222,8 @@ const AdminPanel = () => {
                             <li key={index}>{ing}</li>
                           ))}
                         </ul>
-                        {pedido.detalles.extras.length > 0 && (
-                          <>
-                            <p className="extras-titulo">Extras:</p>
-                            <ul className="extras-lista">
-                              {pedido.detalles.extras.map((extra, index) => (
-                                <li key={index}>{extra}</li>
-                              ))}
-                            </ul>
-                          </>
+                        {pedido.detalles.papas && (
+                          <p className="papas-info">Incluye papas fritas</p>
                         )}
                       </div>
                     )}
@@ -137,6 +247,7 @@ const AdminPanel = () => {
                   <div className="pedido-content">
                     <p><strong>{pedido.producto}</strong></p>
                     <p>Cliente: {pedido.cliente}</p>
+                    <p className="pedido-precio">${pedido.precio}</p>
                     <div
                       className="detalles-header"
                       onClick={() => toggleDetalles(pedido.id)}
@@ -152,15 +263,8 @@ const AdminPanel = () => {
                             <li key={index}>{ing}</li>
                           ))}
                         </ul>
-                        {pedido.detalles.extras.length > 0 && (
-                          <>
-                            <p className="extras-titulo">Extras:</p>
-                            <ul className="extras-lista">
-                              {pedido.detalles.extras.map((extra, index) => (
-                                <li key={index}>{extra}</li>
-                              ))}
-                            </ul>
-                          </>
+                        {pedido.detalles.papas && (
+                          <p className="papas-info">Incluye papas fritas</p>
                         )}
                       </div>
                     )}
@@ -181,6 +285,7 @@ const AdminPanel = () => {
                   <div className="pedido-content">
                     <p><strong>{pedido.producto}</strong></p>
                     <p>Cliente: {pedido.cliente}</p>
+                    <p className="pedido-precio">${pedido.precio}</p>
                     <button
                       onClick={() => handleLimpiar(pedido.id)}
                       className="btn-limpiar"

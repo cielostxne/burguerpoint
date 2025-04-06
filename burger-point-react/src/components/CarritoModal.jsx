@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 const CarritoModal = ({ carrito, setCarrito, onClose }) => {
   const [nombre, setNombre] = useState('');
@@ -18,16 +20,37 @@ const CarritoModal = ({ carrito, setCarrito, onClose }) => {
     ));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!nombre.trim()) {
       alert('Por favor ingresa tu nombre');
       return;
     }
-    // Aquí iría la lógica para procesar el pago
-    console.log('Procesando pedido para:', nombre);
-    console.log('Descripción:', descripcion);
-    console.log('Total:', total);
+
+    try {
+      const pedido = {
+        nombre,
+        descripcion,
+        items: carrito.map(item => ({
+          nombre: item.nombre,
+          cantidad: item.cantidad,
+          precio: item.precio,
+          subtotal: item.precio * item.cantidad
+        })),
+        total,
+        estado: 'pendiente',
+        fecha: new Date().toISOString(),
+        timestamp: Date.now()
+      };
+
+      await addDoc(collection(db, 'pedidos'), pedido);
+      alert('¡Pedido realizado con éxito!');
+      setCarrito([]);
+      onClose();
+    } catch (error) {
+      console.error('Error al crear el pedido:', error);
+      alert('Hubo un error al procesar el pedido');
+    }
   };
 
   return (

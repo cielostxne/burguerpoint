@@ -6,8 +6,16 @@ import Menu from './components/Menu';
 import Login from './components/Login';
 import AdminPanel from './components/AdminPanel';
 import './App.css';
+import { useEffect } from 'react';
+import { poblarBaseDatos } from './firebase/seed';
+import { poblarUsuarios } from './firebase/seed';
 
 function App() {
+  useEffect(() => {
+    // Descomentar la siguiente línea solo una vez
+    //poblarBaseDatos();
+    //poblarUsuarios();
+  }, []);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [carrito, setCarrito] = useState([]);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);

@@ -19,7 +19,17 @@ const ProductoModal = ({ producto, onClose, onAgregarCarrito }) => {
 
         <div className="modal-grid">
           <div className="modal-imagen">
-            <div className="imagen-placeholder"></div>
+            {producto.imagen ? (
+              <img
+                src={producto.imagen}
+                alt={producto.nombre}
+                className="producto-imagen"
+              />
+            ) : (
+              <div className="imagen-placeholder">
+                <i className="fas fa-burger"></i>
+              </div>
+            )}
           </div>
 
           <div className="modal-detalles">

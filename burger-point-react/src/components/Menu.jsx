@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ProductoModal from './ProductoModal';
 import CarritoModal from './CarritoModal';
+import burgerNortina from '../assets/nortina.png';
 
 const Menu = ({ carrito, setCarrito, mostrarCarrito, setMostrarCarrito }) => {
   const [modalProducto, setModalProducto] = useState(null);
@@ -9,6 +10,7 @@ const Menu = ({ carrito, setCarrito, mostrarCarrito, setMostrarCarrito }) => {
     {
       id: 1,
       nombre: 'Burger Point Nortina',
+      imagen: burgerNortina,
       precioSimple: 7500,
       precioDoble: 9500,
       descripcion: 'CARNE 100% DE VACUNO. Queso cheddar, tomate, lechuga hidropónica, pepinillos, lactonesa de ajo y lactonesa de aceituna',
